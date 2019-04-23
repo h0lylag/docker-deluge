@@ -55,13 +55,13 @@ RUN \
 	/var/lib/apt/lists/* \
 	/var/tmp/*
 
+# Allow passwordless login to the web interface 
+RUN \
+ # Allow correct AND incorrect password to be submitted
+ sed -i 's/if s.hexdigest() == config\["pwd_sha1"\]:/if True:/' /usr/lib/python2.7/dist-packages/deluge/ui/web/auth.py
 
-## Allow correct AND incorrect password to be submitted
-sed -i 's/if s.hexdigest() == config\["pwd_sha1"\]:/if True:/' /usr/lib/python2.7/dist-packages/deluge/ui/web/auth.py
-
-## Auto submit blank password
-sed -i 's/onShow:function(){this.passwordField.focus(.*)}/onShow:function(){this.onLogin();}/' /usr/lib/python2.7/dist-packages/deluge/ui/web/js/deluge-all.js
-
+ # Auto submit blank password
+ sed -i 's/onShow:function(){this.passwordField.focus(.*)}/onShow:function(){this.onLogin();}/' /usr/lib/python2.7/dist-packages/deluge/ui/web/js/deluge-all.js
 
 # add local files
 COPY root/ /
